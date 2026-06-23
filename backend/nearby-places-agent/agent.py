@@ -22,7 +22,7 @@ def _is_valid_question(question: str) -> bool:
     prompt = f"""
     Analyze the user's question.
     - If the question is about finding nearby physical places (like parks, museums, landmarks, coffee shops), respond with the single word: VALID
-    - If the question is about booking or finding specific restaurants, hotels, or flight tickets, respond with the single word: INVALID
+    - If the question is about booking or finding specific restaurants, hotels, or flight tickets,food,weather, respond with the single word: INVALID
 
     User Question: "{question}"
     Classification:"""
@@ -34,9 +34,11 @@ def _is_valid_question(question: str) -> bool:
 
 
 def nearby_agent(question):
+    # Move the guardrail check to be the very first step, outside the try block.
+    if not _is_valid_question(question):
+        return "I am a nearby places agent. I can help you find interesting spots, but I don't handle restaurant, hotel, or flight ticket queries."
+
     try:
-        if not _is_valid_question(question):
-            return "I am a nearby places agent. I can help you find interesting spots, but I don't handle restaurant, hotel, or flight ticket queries."
         # Attempt to load the local vector database
         db = load_db()
 
