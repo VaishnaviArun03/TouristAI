@@ -42,7 +42,7 @@ def _is_valid_question(question: str) -> bool:
 def nearby_agent(question):
     # Move the guardrail check to be the very first step, outside the try block.
     if not _is_valid_question(question):
-        return ""
+        return "This question is outside my scope. I handle queries about nearby places, hotels, and restaurants."
 
     try:
         # Attempt to load the local vector database
